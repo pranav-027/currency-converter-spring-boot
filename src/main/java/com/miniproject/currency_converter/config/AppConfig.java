@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class AppConfig {
 
-
 	@Bean
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {
 		return builder -> builder.serializationInclusion(Include.NON_NULL);

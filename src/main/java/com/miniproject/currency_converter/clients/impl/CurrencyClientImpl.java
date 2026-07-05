@@ -8,6 +8,7 @@ import com.miniproject.currency_converter.model.ExchangeRateResponse;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class CurrencyClientImpl implements CurrencyClient {
 	}
 
 	@Override
+	@Cacheable(value = "exchangeRates", key = "#baseCurrency.name() + '-' + #targetCurrency.name()", unless = "#result == null")
 	public BigDecimal getExchangeRate(CurrencyCode baseCurrency, CurrencyCode targetCurrency) {
 		log.info("Fetching exchange rate for base currency: {} and target currency: {}", baseCurrency, targetCurrency);
 	ExchangeRateResponse exchangeRateResponse = currencyApiClient.get()
@@ -47,6 +49,8 @@ public class CurrencyClientImpl implements CurrencyClient {
 				})
 				.body(new ParameterizedTypeReference<>() {
 				});
+
+		log.info("Exchange Rate Response: {}", exchangeRateResponse);
 
 		if (exchangeRateResponse == null || exchangeRateResponse.getData() == null) {
 			throw new TechnicalException("Invalid response from the API");
