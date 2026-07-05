@@ -1,6 +1,8 @@
 ## Currency Converter Project in Java Spring Boot
 
-used external API to get the currency exchange rates and convert the amount from one currency to another.
+- RestClient to call external API
+- The fetched exchange rates are cached for 1 hour to reduce the number of API calls.
+- Created a basic service to log the history of conversions in a db using H2 database.
 
 #### API Used: https://freecurrencyapi.com/
 
