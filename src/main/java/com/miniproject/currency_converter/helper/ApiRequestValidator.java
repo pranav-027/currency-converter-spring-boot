@@ -20,7 +20,7 @@ public class ApiRequestValidator {
 		}
 
 		if (CurrencyCode.fromCode(fromCurrency.toUpperCase()) == null || CurrencyCode.fromCode(toCurrency.toUpperCase()) == null) {
-			throw new IllegalArgumentException("Invalid from currency code");
+			throw new IllegalArgumentException("Invalid currency code");
 		}
 
 	}
